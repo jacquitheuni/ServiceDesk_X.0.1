@@ -1,0 +1,119 @@
+﻿<section class="content-header">
+    <h1>
+        <small>View and follow up on your requests</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Tickets</li>
+    </ol>
+</section>
+
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">Ticket Details</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <div class="table-responsive">
+            <table id="ticketstable" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Ticket Number</th>
+                        <th>Subject</th>
+                        <th>Status</th>
+                        <th>Assigned To</th>
+                        <th>Reported Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><a href="pages/examples/invoice.html">KP9842</a></td>
+                        <td>Call Request - KP207125</td>
+                        <td><span class="label label-success">In Progress</span></td>
+                        <td>
+                            <div class="sparkbar" data-color="#00a65a" data-height="20">Marilize Zwarts</div>
+                        </td>
+                        <td>15 January 2017 16:12</td>
+                    </tr>
+                    <tr>
+                        <td><a href="pages/examples/invoice.html">KP1848</a></td>
+                        <td>New User - Lesego Komano</td>
+                        <td><span class="label label-warning">On-Hold</span></td>
+                        <td>
+                            <div class="sparkbar" data-color="#f39c12" data-height="20">Thobile Kabini</div>
+                        </td>
+                        <td>27 January 2017 08:55</td>
+                    </tr>
+                    <tr>
+                        <td><a href="pages/examples/invoice.html">KP7429</a></td>
+                        <td>User Transfer - Janice Bornman</td>
+                        <td><span class="label label-danger">Escalated</span></td>
+                        <td>
+                            <div class="sparkbar" data-color="#f56954" data-height="20">Ushaan Bhana</div>
+                        </td>
+                        <td>1 February 2017 12:33</td>
+                    </tr>
+                    <tr>
+                        <td><a href="pages/examples/invoice.html">KP7430</a></td>
+                        <td>Obelix - CKP145621</td>
+                        <td><span class="label label-info">Unassigned</span></td>
+                        <td>
+                            <div class="sparkbar" data-color="#00c0ef" data-height="20"></div>
+                        </td>
+                        <td>1 February 2017 15:20</td>
+                    </tr>
+                    <tr>
+                        <td><a href="pages/examples/invoice.html">KP1848</a></td>
+                        <td>New User - Liam Carmichael</td>
+                        <td><span class="label label-success">In Progress</span></td>
+                        <td>
+                            <div class="sparkbar" data-color="#f39c12" data-height="20">Quinton Theunissen</div>
+                        </td>
+                        <td>2 February 2017 09:12</td>
+                    </tr>
+                    <tr>
+                        <td><a href="pages/examples/invoice.html">KP7429</a></td>
+                        <td>Obelix - KP201141</td>
+                        <td><span class="label label-warning">On-Hold</span></td>
+                        <td>
+                            <div class="sparkbar" data-color="#f56954" data-height="20">Michael du Preez</div>
+                        </td>
+                        <td>2 February 2017 11:47</td>
+                    </tr>
+                    <tr>
+                        <td><a href="pages/examples/invoice.html">KP9842</a></td>
+                        <td>Call Request - KP212141</td>
+                        <td><span class="label label-success">In Progress</span></td>
+                        <td>
+                            <div class="sparkbar" data-color="#00a65a" data-height="20">Brian Masemola</div>
+                        </td>
+                        <td>3 February 2017 09:25</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="box-footer clearfix">
+        @*<input type="submit" value="Submit New Ticket" class="btn btn-sm btn-danger btn-flat pull-left" />*@
+        <a href="@Url.Action("Index","Request")">
+            <i class="btn btn-sm btn-danger btn-flat pull-left">Submit New Request</i>
+        </a>
+    </div>
+</div>
+<script>
+  $(function () {
+    $('#ticketstable').DataTable({
+      'paging'      : true,
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+  })
+</script>

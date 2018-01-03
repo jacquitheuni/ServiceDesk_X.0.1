@@ -1,0 +1,154 @@
+﻿<section class="content-header">
+    <h1 class="lead">
+        Submit New Request
+        <small>Have your say - Let us know what you are having a problem with</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Tickets</a></li>
+        <li class="active">Submit New Request</li>
+    </ol>
+</section>
+
+<div class="form-horizontal">
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab_1" data-toggle="tab">Obelix Queries</a></li>
+                        <li><a href="#tab_2" data-toggle="tab">Employee Queries</a></li>
+                        <li><a href="#tab_3" data-toggle="tab">Desktop Queries</a></li>
+                        <li><a href="#tab_4" data-toggle="tab">Miscellaneous</a></li>
+                        <li><a href="#tab_5" data-toggle="tab">Ratings</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_1" style="text-align:center; vertical-align:middle">
+                            <a class="btn btn-app btn-success">
+                                <i class="fa fa-edit" style="width:120px"></i> Quotes
+                            </a>
+                            <a class="btn btn-app btn-info" style="width:120px">
+                                <i class="fa fa-suitcase"></i> Policy
+                            </a>
+                            <a class="btn btn-app btn-danger" style="width:120px">
+                                <i class="fa fa-ambulance"></i> Claims
+                            </a>
+                            <a class="btn btn-app btn-primary" style="width:120px">
+                                <i class="fa fa-male"></i> Client Info
+                            </a>
+                            <a class="btn btn-app btn-warning" style="width:120px">
+                                <i class="fa fa-money"></i> Financial
+                            </a>
+                        </div>
+                        <div class="tab-pane" id="tab_2" style="text-align:center; vertical-align:middle">
+                            <a href="@Url.Action("EmployeeCreate","Request")" class="btn btn-app btn-success" style="width:120px">
+                                <i class="fa fa-user-plus"></i> New User
+                            </a>
+                            <a href="@Url.Action("EmployeeSearch","Request")" class="btn btn-app btn-primary" style="width:120px">
+                                <i class="fa fa-user"></i> Transfer User
+                            </a>
+                            <a class="btn btn-app btn-danger" style="width:120px">
+                                <i class="fa fa-user-times"></i> Terminate User
+                            </a>
+                            <a class="btn btn-app btn-info" style="width:120px">
+                                <i class="fa fa-users"></i> User Move
+                            </a>
+                        </div>
+                        <div class="tab-pane" id="tab_3" style="text-align:center; vertical-align:middle">
+                            <a class="btn btn-app btn-success" style="width:120px">
+                                <i class="fa fa-desktop"></i> Order Hardware
+                            </a>
+                            <a class="btn btn-app btn-warning" style="width:120px">
+                                <i class="fa fa-plug"></i> Hardware Issues
+                            </a>
+                            <a class="btn btn-app btn-danger" style="width:120px">
+                                <i class="fa fa-spinner"></i> Software Issues
+                            </a>
+                            <a class="btn btn-app btn-info" style="width:120px">
+                                <i class="fa fa-print"></i> Printers
+                            </a>
+                        </div>
+                        <div class="tab-pane" id="tab_4" style="text-align:center; vertical-align:middle">
+                            <a  href="@Url.Action("CallRequestCreate","Request")" class="btn btn-app btn-success" style="width:120px">
+                                <i class="fa fa-phone"></i> Call Request
+                            </a>
+                            <a class="btn btn-app btn-warning" style="width:120px">
+                                <i class="fa fa-envelope-o"></i> E-mail Trace
+                            </a>
+                            <a class="btn btn-app btn-danger" style="width:120px">
+                                <i class="fa fa-phone-square"></i> Phone Lines
+                            </a>
+                            <a class="btn btn-app btn-info" style="width:120px">
+                                <i class="fa fa-wifi"></i> Internet
+                            </a>
+                        </div>
+                        <div class="tab-pane" id="tab_5" style="text-align:center; vertical-align:middle">
+                            <a class="btn btn-app btn-success" style="width:120px">
+                                <i class="fa fa-check-square-o"></i> Referrals
+                            </a>
+                            <a class="btn btn-app btn-warning" style="width:120px">
+                                <i class="fa fa-eye"></i> Claim Prejudice
+                            </a>
+                            <a class="btn btn-app btn-danger" style="width:120px">
+                                <i class="fa fa-spinner"></i> Other
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*@using (Html.BeginForm())
+    {
+        <hr />
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label col-md-2"  })
+                <div class="col-md-10">
+                    @Html.EnumDropDownListFor(model => model.Category, htmlAttributes: new { @class = "form-control", style = "width:20%" })
+                    @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Subcategory, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Subcategory, new { htmlAttributes = new { @class = "form-control", style = "width:20%" } })
+                    @Html.ValidationMessageFor(model => model.Subcategory, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Subject, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.Description, new { htmlAttributes = new { @class = "textarea" } })
+                    @Html.TextArea("Description", new { @class = "textarea", rows = "10", style = "width:100%;background-color:#f8f8f8" })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Submit" class="btn btn-sm btn-danger btn-flat pull-left" />
+                </div>
+            </div>
+        </div>
+    }
+
+    <script>
+         //bootstrap WYSIHTML5 - text editor
+         $(".textarea").wysihtml5();
+        </script>*@

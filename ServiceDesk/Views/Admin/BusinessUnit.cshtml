@@ -1,0 +1,96 @@
+﻿
+@model IEnumerable<ServiceDesk.Models.BusinessUnitEditorModel>
+
+
+<section class="content-header">
+    <h1 class="lead">
+        Departments
+        <small>Build, Fix or crumble</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li>Admin</li>
+        <li class="active">Departments</li>
+    </ol>
+</section>
+
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">Department List</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+        </div>
+    </div>
+@if (Model != null)
+{
+    <div class="box-body">
+        <div class="table-responsive">
+            <table id="ticketstable" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TeamLeader)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.GeneralManager)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.HOD)
+                        </th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TeamLeader)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GeneralManager)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.HOD)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "BUEdit", new { id = item.BusinessUnitId })
+                        </td>
+                        <td>
+                            @Html.ActionLink("Remove", "BURemove", new { id = item.BusinessUnitId })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+}
+</div>
+
+<div class="box-footer clearfix">
+    <a href="@Url.Action("BUCreate","Admin")">
+        <i class="btn btn-sm btn-danger btn-flat pull-left">Create New Deparment</i>
+    </a>
+</div>
+
+<script>
+  $(function () {
+    $('#ticketstable').DataTable({
+      'paging'      : true,
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+  })
+</script>

@@ -1,0 +1,73 @@
+﻿
+@model IEnumerable<ServiceDesk.Models.Stock>
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">Stock List</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="box-body">
+        <div class="table-responsive">
+            <table id="ticketstable" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Quantity)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Threshold)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Quantity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Threshold)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.StockId })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</div>
+<div class="box-footer clearfix">
+    <a href="@Url.Action("Create","Purchase")">
+        <i class="btn btn-sm btn-danger btn-flat pull-left">Submit New Request</i>
+    </a>
+</div>
+<script>
+    $(function () {
+        $('#ticketstable').DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': true,
+            'info': true,
+            'autoWidth': false
+        })
+    })
+</script>

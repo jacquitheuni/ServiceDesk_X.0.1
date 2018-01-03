@@ -1,0 +1,59 @@
+﻿@model IEnumerable<ServiceDesk.Models.Employee>
+
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">Employee List</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <div class="table-responsive">
+            <table id="ticketstable" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.FirstName)</th>
+                        <th>@Html.DisplayNameFor(model => model.PreferredName)</th>
+                        <th>@Html.DisplayNameFor(model => model.Surname)</th>
+                        <th>@Html.DisplayNameFor(model => model.Department)</th>
+                        <th>@Html.DisplayNameFor(model => model.StartDate)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PreferredName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Surname)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Department)</td>
+                            <td>@Html.DisplayFor(modelItem => item.StartDate)</td>
+                            <td>
+                                @Html.ActionLink("Transfer", "EmployeeEdit", new { id = item.EmployeeId }) |
+                                @Html.ActionLink("Terminate", "Delete", new { id = item.EmployeeId })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+<script>
+  $(function () {
+    $('#ticketstable').DataTable({
+      'paging'      : true,
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+  })
+</script>
+
