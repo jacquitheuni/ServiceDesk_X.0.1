@@ -11,7 +11,7 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
-using ServiceDesk.Migrations;
+//using ServiceDesk.Migrations;
 
 namespace ServiceDesk.Models
 {

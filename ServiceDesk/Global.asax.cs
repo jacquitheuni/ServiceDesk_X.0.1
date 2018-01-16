@@ -19,7 +19,8 @@ namespace ServiceDesk
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            //Database.SetInitializer<ApplicationDbContext>(new ApplicationDbContext.DropCreateAlwaysInitializer());
+            Database.SetInitializer<ApplicationDbContext>(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>()); //NB! Remove in production!!
+            //Database.SetInitializer(new DBInitializer());
         }
     }
 }

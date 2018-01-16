@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace ServiceDesk.Models
 {
@@ -46,9 +47,9 @@ namespace ServiceDesk.Models
         public string Surname { get; set; }
         [Display(Name = "Division")]
         public BusinessDivision BusinessDivision { get; set; }
+        public IEnumerable<SelectListItem> BusinessUnitOptions { get; set; }
+        [Display(Name ="Department")]
         [Required]
-        [Display(Name = "Department")]
-        public IEnumerable<BusinessUnit> BusinessUnitOptions { get; set; }
         public int BusinessUnitId { get; set; }
         [Required]
         [Display(Name = "Reporting Manager")]

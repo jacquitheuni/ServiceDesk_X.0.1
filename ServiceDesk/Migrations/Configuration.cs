@@ -1,17 +1,19 @@
 namespace ServiceDesk.Migrations
 {
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Identity.EntityFramework;
     using Models;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Data.Entity.Validation;
     using System.Linq;
-    using static Models.ApplicationDbContext;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<ServiceDesk.Models.ApplicationDbContext>
     {
+        public Configuration()
+        {
+            AutomaticMigrationsEnabled = false;
+            ContextKey = "ServiceDesk.Models.ApplicationDbContext";
+        }
         private const string InitialUserName = "tester";
         private const string InitialUserFirstName = "TestFirstName";
         private const string InitialUserLastName = "TestLastName";
@@ -26,54 +28,42 @@ namespace ServiceDesk.Migrations
 
 
         private readonly ApplicationDbContext _db = new ApplicationDbContext();
-        private readonly string[] _groupAdminRoleNames = { "CanEditUser", "CanEditGroup", "User" };
+        private readonly string[] _groupAdminRoleNames = { "AgentView", "CanEdit", "CanDelete" };
         private readonly IdentityManager _idManager = new IdentityManager();
 
-        private readonly string[] _initialGroupNames = { "SuperAdmins", "GroupAdmins", "UserAdmins", "Users" };
+        private readonly string[] _initialGroupNames = { "SuperAdmins", "Agents", "UserAdmins", "Users" };
 
 
-        private readonly string[] _superAdminRoleNames = { "Admin", "CanEditUser", "CanEditGroup", "CanEditRole", "User" };
-        private readonly string[] _userAdminRoleNames = { "CanEditUser", "User" };
+        private readonly string[] _superAdminRoleNames = { "Admin", "AgentView", "CanEdit", "CanDelete", "ManagerView", "User" };
+        private readonly string[] _userAdminRoleNames = { "ManagerView", "User" };
         private readonly string[] _userRoleNames = { "User" };
-        public Configuration()
-        {
-            AutomaticMigrationsEnabled = true;
-            //ContextKey = "ServiceDesk.Models.ApplicationDbContext";
-        }
 
-        protected override void Seed(ApplicationDbContext context)
+        protected override void Seed(ServiceDesk.Models.ApplicationDbContext context)
         {
-            AddGroups();
-            AddRoles();
-            AddUsers();
-            AddRolesToGroups();
-            AddUsersToGroups();
-        }
-
-        public void AddGroups()
-        {
-            foreach (var groupName in _initialGroupNames)
-            {
-
-                try
-                {
-                    _idManager.CreateGroup(groupName);
-                }
-                catch (GroupExistsException)
-                {
-                    // intentionally catched for seeding
-                }
-            }
+            //AddGroups();
+            //AddRoles();
+            //AddUsers();
+            //AddRolesToGroups();
+            //AddUsersToGroups();
         }
 
         private void AddRoles()
         {
             // Some example initial roles. These COULD BE much more granular:
             _idManager.CreateRole("Admin", "Global Access");
-            _idManager.CreateRole("CanEditUser", "Add, modify, and delete Users");
-            _idManager.CreateRole("CanEditGroup", "Add, modify, and delete Groups");
-            _idManager.CreateRole("CanEditRole", "Add, modify, and delete roles");
+            _idManager.CreateRole("AgentView", "View all requests");
+            _idManager.CreateRole("CanEdit", "Add & modify requests");
+            _idManager.CreateRole("CanDelete", "Add, modify, and delete requests");
+            _idManager.CreateRole("ManagerView", "Expanded user access to view team requests");
             _idManager.CreateRole("User", "Restricted to business domain activity");
+        }
+
+        private void AddGroups()
+        {
+            foreach (string name in _initialGroupNames)
+            {
+                _idManager.CreateGroup(name);
+            }
         }
 
         private void AddRolesToGroups()
@@ -112,24 +102,24 @@ namespace ServiceDesk.Migrations
 
         private void AddUsers()
         {
-            var newUser = new ApplicationUser
-            {
-                UserName = InitialUserName,
-                FirstName = InitialUserFirstName,
-                LastName = InitialUserLastName,
-                Email = InitialUserEmail,
-                isActive = true
-            };
+            //var newUser = new ApplicationUser
+            //{
+            //    UserName = InitialUserName,
+            //    FirstName = InitialUserFirstName,
+            //    LastName = InitialUserLastName,
+            //    Email = InitialUserEmail,
+            //    isActive = true
+            //};
 
-            // Be careful here - you  will need to use a password which will 
-            // be valid under the password rules for the application, 
-            // or the process will abort:
-            var userCreationResult = _idManager.CreateUser(newUser, InitialUserPassword);
-            if (!userCreationResult.Succeeded)
-            {
-                // warn the user that it's seeding went wrong
-                throw new DbEntityValidationException("Could not create InitialUser because: " + String.Join(", ", userCreationResult.Errors));
-            }
+            //// Be careful here - you  will need to use a password which will 
+            //// be valid under the password rules for the application, 
+            //// or the process will abort:
+            //var userCreationResult = _idManager.CreateUser(newUser, InitialUserPassword);
+            //if (!userCreationResult.Succeeded)
+            //{
+            //    // warn the user that it's seeding went wrong
+            //    throw new DbEntityValidationException("Could not create InitialUser because: " + String.Join(", ", userCreationResult.Errors));
+            //}
 
             var newVaniallaUser = new ApplicationUser
             {
@@ -143,7 +133,7 @@ namespace ServiceDesk.Migrations
             // Be careful here - you  will need to use a password which will 
             // be valid under the password rules for the application, 
             // or the process will abort:
-            userCreationResult = _idManager.CreateUser(newVaniallaUser, VaniallaUserPassword);
+            var userCreationResult = _idManager.CreateUser(newVaniallaUser, VaniallaUserPassword);
             if (!userCreationResult.Succeeded)
             {
                 // warn the user that it's seeding went wrong
@@ -154,17 +144,18 @@ namespace ServiceDesk.Migrations
         // Configure the initial Super-Admin user:
         private void AddUsersToGroups()
         {
-            Console.WriteLine(String.Join(", ", _db.Users.Select(u => u.Email)));
-            ApplicationUser user = _db.Users.First(u => u.UserName == InitialUserName);
+    
+            //Console.WriteLine(String.Join(", ", _db.Users.Select(u => u.Email)));
+            ApplicationUser user = _db.Users.First(u => u.UserName == VaniallaUserName);
             IDbSet<Group> allGroups = _db.Group;
             foreach (Group group in allGroups)
             {
                 _idManager.AddUserToGroup(user.Id, group.Id);
             }
 
-            user = _db.Users.FirstOrDefault(u => u.UserName == VaniallaUserName);
-            var plainUsers = allGroups.FirstOrDefault(g => g.Name == "Users");
-            _idManager.AddUserToGroup(user.Id, plainUsers.Id);
+            //user = _db.Users.FirstOrDefault(u => u.UserName == VaniallaUserName);
+            //var plainUsers = allGroups.FirstOrDefault(g => g.Name == "Users");
+            //_idManager.AddUserToGroup(user.Id, plainUsers.Id);
         }
     }
 }

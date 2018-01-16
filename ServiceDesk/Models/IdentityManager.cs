@@ -72,11 +72,11 @@ namespace ServiceDesk.Models
 
         public void CreateGroup(string groupName)
         {
-            if (GroupNameExists(groupName))
-            {
-                throw new GroupExistsException(
-                    "A group by that name already exists in the database. Please choose another name.");
-            }
+            //if (GroupNameExists(groupName))
+            //{
+            //    throw new GroupExistsException(
+            //        "A group by that name already exists in the database. Please choose another name.");
+            //}
 
             var newGroup = new Group(groupName);
             _db.Group.Add(newGroup);
@@ -184,26 +184,26 @@ namespace ServiceDesk.Models
         }
     }
 
-    [Serializable]
-    public class GroupExistsException : Exception
-    {
-        public GroupExistsException()
-        {
-        }
+    //[Serializable]
+    //public class GroupExistsException : Exception
+    //{
+    //    public GroupExistsException()
+    //    {
+    //    }
 
-        public GroupExistsException(string message) : base(message)
-        {
-        }
+    //    public GroupExistsException(string message) : base(message)
+    //    {
+    //    }
 
-        public GroupExistsException(string message, Exception inner) : base(message, inner)
-        {
-        }
+    //    public GroupExistsException(string message, Exception inner) : base(message, inner)
+    //    {
+    //    }
 
-        protected GroupExistsException(
-            SerializationInfo info,
-            StreamingContext context) : base(info, context)
-        {
-        }
-    }
+    //    protected GroupExistsException(
+    //        SerializationInfo info,
+    //        StreamingContext context) : base(info, context)
+    //    {
+    //    }
+    //}
 
 }

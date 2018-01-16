@@ -62,10 +62,10 @@
                             @Html.DisplayFor(modelItem => item.HOD)
                         </td>
                         <td>
-                            @Html.ActionLink("Edit", "BUEdit", new { id = item.BusinessUnitId })
+                            @Html.ActionLink("Edit", "DepartmentEdit", new { id = item.BusinessUnitId })
                         </td>
                         <td>
-                            @Html.ActionLink("Remove", "BURemove", new { id = item.BusinessUnitId })
+                            @Html.ActionLink("Remove", "DepartmentRemove", new { id = item.BusinessUnitId })
                         </td>
                     </tr>
                 }
@@ -77,7 +77,7 @@
 </div>
 
 <div class="box-footer clearfix">
-    <a href="@Url.Action("BUCreate","Admin")">
+    <a href="@Url.Action("Departments","Admin")">
         <i class="btn btn-sm btn-danger btn-flat pull-left">Create New Deparment</i>
     </a>
 </div>

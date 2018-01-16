@@ -67,14 +67,24 @@ namespace ServiceDesk.Controllers
             return View(employees);
         }
 
+        public IEnumerable<SelectListItem> GetDepartmentList()
+        {
+            var model = context.BusinessUnit.Distinct().OrderBy(x => x.isActive).ThenBy(x => x.Name).Select(x => new SelectListItem
+            {
+                Value = x.BusinessUnitId.ToString(),
+                Text = x.Name
+            }).ToList();
+            return model;
+        }
+
         public ActionResult EmployeeEdit()
         {
-            return View(new EmployeeEditorViewModel() { });
+            return View(new EmployeeEditorViewModel() { BusinessUnitOptions = GetDepartmentList() });
         }
 
         public ActionResult EmployeeCreate()
         {
-            return View(new EmployeeEditorViewModel() { });
+            return View(new EmployeeEditorViewModel() { BusinessUnitOptions = GetDepartmentList() });
         }
         [HttpPost]
         public ActionResult EmployeeCreate(EmployeeEditorViewModel model)
@@ -98,12 +108,13 @@ namespace ServiceDesk.Controllers
                 BusinessUnitId = model.BusinessUnitId
             };
             context.Employee.Add(employee);
+            context.SaveChanges();
 
             var employeerequest = new EmployeeRequest() { };
             context.EmployeeRequest.Add(employeerequest);
 
             context.SaveChanges();
-            return View(new EmployeeEditorViewModel() { });
+            return View(new EmployeeEditorViewModel() { BusinessUnitOptions = GetDepartmentList() });
         }
 
         [HttpPost]

@@ -1,4 +1,5 @@
-﻿using ServiceDesk.Models;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using ServiceDesk.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,35 +22,61 @@ namespace ServiceDesk.Controllers
             return View();
         }
 
+        public List<BusinessUnitEditorModel> GetDepartmentList()
+        {
+            var model = from bu in context.BusinessUnit
+                        join bum in context.BusinessUnitManagement on bu.BusinessUnitId equals bum.BusinessUnitId
+                        join bua in context.BusinessUnitAccess on bu.BusinessUnitId equals bua.BusinessUnitId
+                        select new BusinessUnitEditorModel()
+                        {
+                            BusinessUnitId = bu.BusinessUnitId,
+                            isActive = bu.isActive,
+                            Name = bu.Name,
+                            RoleId = bua.RoleId,
+                            GeneralManager = bum.GeneralManager,
+                            HOD = bum.HOD,
+                            TeamLeader = bum.TeamLeader
+                        };
+            return model.Distinct().OrderBy(x => x.isActive).ThenBy(x => x.Name).ToList();
+        }
         public ActionResult BusinessUnit()
         {
-            return View();
+            return View(GetDepartmentList());
         }
 
-        public ActionResult BUEdit(string id)
+        public ActionResult DepartmentEdit(string id)
         {
             return View("BusinessUnit");
         }
 
-        public ActionResult BURemove(string id)
+        public ActionResult DepartmentRemove(string id)
         {
             return View("BusinessUnit");
         }
-
+        public IEnumerable<SelectListItem> GetRoleList()
+        {
+            return context.Group.Select(x => new SelectListItem
+            {
+                Value = x.Id.ToString(),
+                Text = x.Name
+            });
+        }
         [HttpGet]
-        public ActionResult BUCreate()
+        public ActionResult Departments()
         {
-            return View();
+            var model = new BusinessUnitEditorModel() { RoleItems = GetRoleList() };
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult BUCreate(BusinessUnitEditorModel model)
+        public ActionResult Departments(BusinessUnitEditorModel model)
         {
-            if (model != null)
+            if (ModelState.IsValid)
             {
                 //Build in duplicate check (Department Name)
                 var department = new BusinessUnit() { Name = model.Name };
                 context.BusinessUnit.Add(department);
+                context.SaveChanges();
 
                 var BUid = context.BusinessUnit.Where(x => x.Name == model.Name).Select(x => x.BusinessUnitId).FirstOrDefault();
 
@@ -60,13 +87,16 @@ namespace ServiceDesk.Controllers
                 context.BusinessUnitManagement.Add(managers);
 
                 context.SaveChanges();
-                return View(ViewBag.message("Successfully Submitted Department :" + model.Name));
+                //return View(ViewBag.message("Successfully Submitted Department :" + model.Name));
+                var newmodel = new BusinessUnitEditorModel() { RoleItems = GetRoleList() };
+                return View(newmodel);
 
                 //If duplicate send duplicate message back
             }
             else
             {
-                return View(ViewBag.message("Unable to submit department, please review and ensure all data is filled in."));
+                //return View(ViewBag.message("Unable to submit department, please review and ensure all data is filled in."));
+                return View();
             }
         }
 

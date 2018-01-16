@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 
@@ -16,11 +17,11 @@ namespace ServiceDesk.Models
         public virtual IDbSet<RequestLink> RequestLink { get; set; }
         public virtual IDbSet<Employee> Employee { get; set; }
         public virtual IDbSet<EmployeeRequest> EmployeeRequest { get; set; }
-        public virtual IDbSet<Remarks> Remarks { get; set; }
-        public virtual IDbSet<Stock> Stock { get; set; }
-        public virtual IDbSet<WikiAttachment> WikiAttachment { get; set; }
-        public virtual IDbSet<WikiCategory> WikiCategory { get; set; }
-        public virtual IDbSet<WikiDetail> WikiDetail { get; set; }
+        //public virtual IDbSet<Remarks> Remarks { get; set; }
+        //public virtual IDbSet<Stock> Stock { get; set; }
+        //public virtual IDbSet<WikiAttachment> WikiAttachment { get; set; }
+        //public virtual IDbSet<WikiCategory> WikiCategory { get; set; }
+        //public virtual IDbSet<WikiDetail> WikiDetail { get; set; }
         public virtual IDbSet<BusinessHours> BusinessHours { get; set; }
         public virtual IDbSet<AgentDepartment> AgentDepartment { get; set; }
         public virtual IDbSet<BusinessUnit> BusinessUnit { get; set; }
@@ -32,9 +33,9 @@ namespace ServiceDesk.Models
 
         }
 
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+
             if (modelBuilder == null)
             {
                 throw new ArgumentNullException("modelBuilder");
@@ -83,5 +84,8 @@ namespace ServiceDesk.Models
             EntityTypeConfiguration<ApplicationRole> entityTypeConfiguration1 = modelBuilder.Entity<ApplicationRole>().ToTable("AspNetRoles");
             entityTypeConfiguration1.Property((ApplicationRole r) => r.Name).IsRequired();
         }
+
+
+       
     }
 }
